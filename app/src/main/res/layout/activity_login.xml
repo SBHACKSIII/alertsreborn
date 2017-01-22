@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -66,5 +66,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="10dp"
             android:visibility="invisible"/>
+        <ImageView
+            android:layout_width="285dp"
+            android:layout_height="134dp" app:srcCompat="@drawable/simple_world_map"
+            android:id="@+id/worldMap" android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true" android:scaleType="fitCenter"
+            android:contentDescription="An image of the world map"/>
     </LinearLayout>
 </RelativeLayout>

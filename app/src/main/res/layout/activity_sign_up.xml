@@ -22,9 +22,21 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/firstNameEditText" android:hint="First name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/lastNameEditText" android:hint="Last name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/emailEditText" android:hint="Enter your email"/>
+        android:id="@+id/emailEditText" android:hint="Enter your email address"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

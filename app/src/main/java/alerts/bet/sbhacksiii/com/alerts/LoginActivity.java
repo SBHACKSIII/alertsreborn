@@ -1,14 +1,19 @@
 package alerts.bet.sbhacksiii.com.alerts;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +21,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import alerts.bet.sbhacksiii.com.alerts.MainActivity;
-import alerts.bet.sbhacksiii.com.alerts.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,6 +31,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
+
+    private Animation shakeAnim;
+
+    private RelativeLayout activity_lagin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         loggingInTextView = (TextView) findViewById(R.id.loggingInTextView);
         guestTextView = (TextView) findViewById(R.id.guestTextView);
+        activity_lagin = (RelativeLayout) findViewById(R.id.activity_login);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -74,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+        hideKeyboard(this);
         progressBar.setVisibility(View.VISIBLE);
         loggingInTextView.setVisibility(View.VISIBLE);
 
@@ -84,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         progressBar.setVisibility(View.INVISIBLE);
                         loggingInTextView.setVisibility(View.INVISIBLE);
 
+                        Log.i("Before if", "Before the if clause");
+
                         if (task.isSuccessful()) {
                             // User successfully registered and logged in
                             // We will start the profile activity here
@@ -93,6 +103,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             startActivity(new Intent(getApplicationContext(), MainActivity.class)
                                     .putExtra("userId", firebaseAuth.getCurrentUser().getUid()));
                         } else {
+                            // Start shake animation
+                            Log.i("Else clause", "In the else clause");
+                            //shakeAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim);
+                            //activity_lagin.startAnimation(shakeAnim);
                             Toast.makeText(LoginActivity.this, "Could not register. Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -106,13 +120,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if (view == signUpTextView) {
-            finish();
             startActivity(new Intent(this, SignUpActivity.class));
         }
 
         if (view == guestTextView) {
-            finish();
             startActivity(new Intent(this, MainActivity.class));
         }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
